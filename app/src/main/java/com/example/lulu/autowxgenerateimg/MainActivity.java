@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
@@ -15,8 +16,12 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -29,11 +34,14 @@ public class MainActivity extends AppCompatActivity {
     public static final int PERMISSION_REQUEST_CODE = 1;
     private static final String TAG = "MainActivity";
     private static final int WX_MAX_PIXEL = 5800000;//微信实际要求不能超过600万
+    public static final String ROOT_PATH = "/sdcard/1A生成的Bitmap/";
+    private LinearLayout mRootView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mRootView = ((LinearLayout) findViewById(R.id.root_view));
         //申请权限
         if (Build.VERSION.SDK_INT >= 23) {
             ActivityCompat.requestPermissions(this,
@@ -121,20 +129,39 @@ public class MainActivity extends AppCompatActivity {
         }
         int bitmapCount = h / (WX_MAX_PIXEL / w) + 1;
         int newH = h / bitmapCount;//每个bitmap新的高度
+        LinearLayout.LayoutParams params
+                = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
         for (int i = 0; i < bitmapCount; i++) {
             Bitmap bmp = Bitmap.createBitmap(bitmap, 0, i * newH, w, newH, null,false);
             Log.d(TAG, "generateBitmaps: bmp: "+ bmp.getHeight());
-            saveMyBitmap(bmp, String.valueOf(i+1));
-            if (i == 0) {
-                ((ImageView) findViewById(R.id.preview)).setImageBitmap(bmp);
-            }
+            String fileName = String.valueOf(i+1);
+            saveMyBitmap(bmp, fileName);
+            ImageView imageView = new ImageView(this);
+            imageView.setLayoutParams(params);
+            imageView.setImageBitmap(bmp);
+            TextView textView = new TextView(this);
+            textView.setLayoutParams(params);
+            textView.setGravity(Gravity.CENTER);
+            textView.setText(fileName + ".jpg");
+            textView.setPadding(0, 10, 0, 20);
+            textView.setTextColor(Color.RED);
+            mRootView.addView(imageView);
+            mRootView.addView(textView);
         }
+        Toast.makeText(this, "已经保存到: " + ROOT_PATH + " 目录下!" , Toast.LENGTH_SHORT).show();
     }
+
+    /**
+     * 保存裁剪好的Bitmap
+     * @param mBitmap
+     * @param bitName
+     */
     public void saveMyBitmap(Bitmap mBitmap,String bitName)  {
         if (mBitmap == null) {
             return;
         }
-        File f = new File( "/sdcard/1A生成的Bitmap/"+bitName + ".jpg");
+        File f = new File( ROOT_PATH + bitName + ".jpg");
         FileOutputStream fOut = null;
         try {
             if (!f.exists()) {
