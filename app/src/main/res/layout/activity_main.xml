@@ -4,9 +4,33 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent" >
 
+    <TextView
+        android:text="去除头部(px):"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/top_px"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <!--<TextView-->
+        <!--android:text="去除底部(px):"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content" />-->
+    <!--<EditText-->
+        <!--android:id="@+id/bottom_px"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content" />-->
+
+
     <Button
         android:text="选取图片"
         android:onClick="selectPhoto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/loading"
+        android:text="正在生成,请稍后..."
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
