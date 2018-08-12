@@ -168,10 +168,12 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback{
 
         for (int i = 0; i < bitmapCount; i++) {
             int yIndex = i * newH;
+            int height = newH;
             if (i == 0) {
                 yIndex = topPx;//从顶部设置的距离开始
+                height = newH - topPx;
             }
-            Bitmap bmp = Bitmap.createBitmap(bitmap, 0, yIndex, w, newH, null,false);
+            Bitmap bmp = Bitmap.createBitmap(bitmap, 0, yIndex, w, height, null,false);
             Log.d(TAG, "generateBitmaps: bmp: "+ bmp.getHeight());
             String fileName = String.valueOf(i+1);
             saveMyBitmap(bmp, fileName);
