@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback{
     private TextView loading;
     private static final int GENERATE_BITMAP = 1;
     private static final int ALL_SUCCESS  = 2;
+    private static final int NO_NEED_HANDLE  = 3;
 
 
     @Override
@@ -160,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback{
         int w = bitmap.getWidth();
         int h = bitmap.getHeight();
         if (w * h < WX_MAX_PIXEL || w > h) {
-            Toast.makeText(this, "图片无需处理", Toast.LENGTH_SHORT).show();
+            mHandler.sendEmptyMessage(NO_NEED_HANDLE);
             return;
         }
         int bitmapCount = h / (WX_MAX_PIXEL / w) + 1;
@@ -241,6 +242,9 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback{
             case ALL_SUCCESS:
                 loading.setText("已经保存到: " + ROOT_PATH + " 目录下!");
                 System.gc();
+            case NO_NEED_HANDLE:
+                Toast.makeText(this, "图片无需处理", Toast.LENGTH_SHORT).show();
+                break;
         }
 
         return false;
