@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        sign {
+            keyAlias 'sign'
+            keyPassword '941007zll'
+            storeFile file('C:/ASProject/AutoWxGenerateImg/sign.jks')
+            storePassword '941007zll'
+        }
+    }
     compileSdkVersion 26
     defaultConfig {
         applicationId "com.lulu.autowximg"
@@ -19,7 +27,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     testImplementation 'junit:junit:4.12'
