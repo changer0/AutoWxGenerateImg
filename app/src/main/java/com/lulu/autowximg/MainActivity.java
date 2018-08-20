@@ -1,4 +1,4 @@
-package com.example.lulu.autowxgenerateimg;
+package com.lulu.autowximg;
 
 import android.Manifest;
 import android.content.ContentResolver;
@@ -25,6 +25,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.lulu.autowxgenerateimg.R;
 
 import java.io.File;
 import java.io.FileNotFoundException;

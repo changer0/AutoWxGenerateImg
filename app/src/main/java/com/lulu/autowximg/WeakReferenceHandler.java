@@ -1,4 +1,4 @@
-package com.example.lulu.autowxgenerateimg;
+package com.lulu.autowximg;
 
 import android.os.Handler;
 import android.os.Looper;
